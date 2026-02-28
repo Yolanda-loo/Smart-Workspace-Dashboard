@@ -22,4 +22,6 @@ pool.on('error', (err, client) => {
 
 module.exports = {
   query: (text, params) => pool.query(text, params),
+  // Close and drain the pool (returns a promise)
+  close: () => pool.end(),
 };

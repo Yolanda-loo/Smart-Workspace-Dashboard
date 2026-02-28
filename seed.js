@@ -33,9 +33,16 @@ const seedDatabase = async () => {
     );
 
     console.log("✅ Database seeded successfully!");
-    process.exit();
+    // Close DB pool gracefully then exit
+    await db.close();
+    process.exit(0);
   } catch (err) {
     console.error("❌ Error seeding database:", err);
+    try {
+      await db.close();
+    } catch (closeErr) {
+      // ignore close errors
+    }
     process.exit(1);
   }
 };
